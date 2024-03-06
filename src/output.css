@@ -799,4 +799,20 @@ video {
   .sm\:w-60 {
     width: 15rem;
   }
+
+  .sm\:from-sidebarBlue {
+    --tw-gradient-from: rgba(203, 239, 255, 0.5) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgba(203, 239, 255, 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+
+  .sm\:from-sidebarPurple {
+    --tw-gradient-from: rgba(187, 144, 219, 0.72) var(--tw-gradient-from-position);
+    --tw-gradient-to: rgba(187, 144, 219, 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+
+  .sm\:to-sidebarBlue {
+    --tw-gradient-to: rgba(203, 239, 255, 0.5) var(--tw-gradient-to-position);
+  }
 }
