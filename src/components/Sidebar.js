@@ -1,10 +1,12 @@
 import React from "react";
+import SidebarLink from "./SidebarLink";
 import HomeIcon from "assets/icons/home.svg";
 import ProfileIcon from "assets/icons/user.svg";
 import CalendarIcon from "assets/icons/calendar-day.svg";
 import ImageIcon from "assets/icons/copy-image.svg";
 import StarIcon from "assets/icons/star.svg";
-const Sidebar = () => {
+
+const Sidebar = ({ currentView }) => {
   return (
     <div
       className="fixed left-0 top-0 flex h-screen
@@ -14,22 +16,28 @@ const Sidebar = () => {
       <p className="mt-1 font-Montserrat text-[13px] font-medium ">
         Make memories that last
       </p>
-      <ul className="mt-7 flex w-full flex-col gap-7 text-sm font-bold">
-        <li className="flex w-full cursor-pointer items-center justify-start gap-2 pl-10">
-          <img src={HomeIcon} style={{ height: 30, width: 30 }}></img> Dashboard
-        </li>
-        <li className="flex w-full cursor-pointer items-center justify-start gap-2 pl-10">
-          <img src={ImageIcon} style={{ height: 30, width: 30 }}></img> Posts
-        </li>
-        <li className="flex w-full cursor-pointer items-center justify-start gap-2 pl-10">
-          <img src={CalendarIcon} style={{ height: 30, width: 30 }}></img> My Calendar
-        </li>
-        <li className="flex w-full cursor-pointer items-center justify-start gap-2 pl-10">
-          <img src={StarIcon} style={{ height: 30, width: 30 }}></img> Upcoming Events
-        </li>
-        <li className="flex w-full cursor-pointer items-center justify-start gap-2 pl-10">
-          <img src={ProfileIcon} style={{ height: 30, width: 30 }}></img> Profile
-        </li>
+      <ul className="mt-7 flex w-full flex-col gap-3 text-sm font-bold">
+        <SidebarLink
+          name="Dashboard"
+          image={HomeIcon}
+          selected={currentView === "Dashboard"}
+        />
+        <SidebarLink name="Posts" image={ImageIcon} selected={currentView === "Posts"} />
+        <SidebarLink
+          name="My Calendar"
+          image={CalendarIcon}
+          selected={currentView === "My Calendar"}
+        />
+        <SidebarLink
+          name="Upcoming Events"
+          image={StarIcon}
+          selected={currentView === "Upcoming Events"}
+        />
+        <SidebarLink
+          name="Profile"
+          image={ProfileIcon}
+          selected={currentView === "Profile"}
+        />
       </ul>
     </div>
   );
