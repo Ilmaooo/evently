@@ -13,7 +13,7 @@ const PersonalityPage = () => {
 
   return (
     <div className="flex flex-col justify-center bg-gradient-to-l from-[#BB90DB] via-white to-[#FCE8FF]">
-      <div className="flex  justify-center items-center px-16 py-20 w-full max-md:px-5 max-md:max-w-full">
+      <div className="flex justify-center items-center px-16 py-20 w-full max-md:px-5 max-md:max-w-full">
         <div className="pl-3.5 mt-7 mb-1 max-w-full border-l border-t border-black border-solid drop-shadow-2xl bg-blue-50 rounded-[39px] w-[1058px]">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-2/5 max-md:ml-0 max-md:w-full">
@@ -37,6 +37,7 @@ const PersonalityPage = () => {
                         onClick={() => toggleOption(option)}
                       >
                         <div className="font-Montserrat">{option}</div>
+                        {selectedOptions.includes(option) && <span>&#10003;</span>}
                       </div>
                     ))}
                   </div>
