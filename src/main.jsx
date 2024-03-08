@@ -5,6 +5,8 @@ import Posts from "src/views/Posts";
 import Profile from "src/views/Profile";
 import MyCalendar from "src/views/MyCalendar";
 import UpcomingEvents from "src/views/UpcomingEvents";
+import RegisterPage from "src/views/RegisterPage";
+import LoginPage from "./views/LoginPage";
 import App from "./App";
 import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -13,6 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/evently/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/evently/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/evently/login",
+    element: <LoginPage />,
   },
   {
     path: "/evently/posts",
@@ -38,6 +48,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

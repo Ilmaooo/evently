@@ -8,6 +8,14 @@ function App() {
       >
         Go to Dashboard
       </button>
+
+      <button
+        onClick={() => {
+          window.location.href = `/evently/register`;
+        }}
+      >
+        Register
+      </button>
     </div>
   );
 }
