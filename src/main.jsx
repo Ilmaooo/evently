@@ -7,6 +7,7 @@ import MyCalendar from "src/views/MyCalendar";
 import UpcomingEvents from "src/views/UpcomingEvents";
 import RegisterPage from "src/views/RegisterPage";
 import LoginPage from "./views/LoginPage";
+import PersonalityPage from "./views/PersonalityPage";
 import App from "./App";
 import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/evently/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/evently/personality",
+    element: <PersonalityPage />,
   },
   {
     path: "/evently/posts",

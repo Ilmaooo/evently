@@ -57,7 +57,7 @@ const RegisterPage = () => {
               <input type="text" id="location" name="location" value={formData.location} onChange={handleChange} className="justify-center items-start self-end py-1 pr-16 pl-3 mt-3 max-w-full whitespace-nowrap rounded-lg bg-neutral-300 bg-opacity-80 w-[431px] max-md:pr-5" />
             </div>
             <div className="mt-auto mb-4 flex justify-center ">
-              <button type="submit" className="bg-[#B765D3] justify-center self-center px-11 py-3 mt-5 max-w-full font-bold text-center text-white rounded-2xl w-[152px] max-md:px-5">Create account</button>
+              <button type="submit" onClick={() => { window.location.href = `/evently/personality`;}} className="bg-[#B765D3] justify-center self-center px-11 py-3 mt-5 max-w-full font-bold text-center text-white rounded-2xl w-[152px] max-md:px-5">Create account</button>
             </div>
             <p className="justify-center self-center mt-3 text-center px-11 font-Montserrat">Already have an account? <span><a href="/evently/login" className='text-[#B765D3] underline font-Montserrat' 
             >Log in</a></span></p>
