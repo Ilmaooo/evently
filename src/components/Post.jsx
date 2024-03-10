@@ -8,7 +8,7 @@ const Post = ({ title, author, date, attendees, finished = true }) => {
   return (
     <div className="flex aspect-[0.7] max-w-[254px] flex-col items-center">
       {hovered && !finished && (
-        <div className="fixed z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
+        <div className="absolute z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
           <button
             className="h-12 w-40 rounded-lg bg-red-600"
             onMouseOver={() => setHovered(true)}
