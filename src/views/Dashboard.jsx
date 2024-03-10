@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "src/components/Sidebar";
 import UpcomingEvent from "../components/UpcomingEvent";
+import Post from "../components/Post";
 
 const Dashboard = () => {
   const dateToday = () => {
@@ -30,6 +31,15 @@ const Dashboard = () => {
           <UpcomingEvent />
           <UpcomingEvent />
           <UpcomingEvent />
+        </div>
+        <h1 className="m-5 mt-8 flex w-full justify-center font-Montserrat text-2xl font-bold">
+          Trending Events
+        </h1>
+        <div className="flex flex-wrap justify-around gap-3">
+          <Post finished={false} />
+          <Post finished={false} />
+          <Post finished={false} />
+          <Post finished={false} />
         </div>
       </div>
     </div>
