@@ -19,11 +19,11 @@ const Dashboard = () => {
     <div>
       <Sidebar currentView="Dashboard" />
       <div className="mt-16 sm:ml-60 sm:mt-0">
-        <div className="mt-4 flex justify-between px-5 font-Montserrat font-light">
+        <div className="justify-betweenpx-5 mt-4 flex font-Montserrat font-light">
           <p>Today is: {dateToday()}</p>
           <p>Enjoy your {dayToday()}</p>
         </div>
-        <h1 className="m-5 flex w-full justify-center font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 flex justify-center font-Montserrat text-2xl font-bold">
           Don't forget about these events happening soon!
         </h1>
         <div className="flex flex-wrap justify-around gap-3">
@@ -31,8 +31,9 @@ const Dashboard = () => {
           <UpcomingEvent />
           <UpcomingEvent />
           <UpcomingEvent />
+          <UpcomingEvent />
         </div>
-        <h1 className="m-5 mt-8 flex w-full justify-center font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 mt-8 flex justify-center font-Montserrat text-2xl font-bold">
           Trending Events
         </h1>
         <div className="flex flex-wrap justify-around gap-3">
