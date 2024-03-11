@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import postimage from "../assets/images/theatre-image.jpg";
 import mapMarkerIcon from "../assets/icons/marker.svg";
 import { useState } from "react";
+
 const Post = ({ title, author, date, attendees, finished = true }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <div className="flex aspect-[0.7] max-w-[254px] flex-col items-center">
+      {/*This section is for darkening the post on hover and only applies to upcoming events */}
       {hovered && !finished && (
         <div className="absolute z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
           <button
@@ -23,6 +25,8 @@ const Post = ({ title, author, date, attendees, finished = true }) => {
           </button>
         </div>
       )}
+
+      {/*This section is for the post itself */}
       <div
         className={`relative z-10 flex flex-col overflow-hidden rounded-2xl px-3 pb-2.5 pt-20 text-black ${
           hovered && !finished ? "brightness-[0.3]" : ""
@@ -43,6 +47,8 @@ const Post = ({ title, author, date, attendees, finished = true }) => {
             by <span className="font-medium">{author}</span>
           </div>
           <div className="mt-6 text-center text-xs font-medium">{date}</div>
+
+          {/*If the event has finished prompt the user to post a picture, if not, show the location of the event */}
           {finished && (
             <button
               type="button"
