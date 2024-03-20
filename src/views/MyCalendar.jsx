@@ -47,7 +47,7 @@ const MyCalendar = () => {
             </button>
           </div>
           <h1 className="font-Montserrat text-2xl font-bold">
-            You are going to <span className="text-red-600">4</span> events this week!
+            You are going to <span className="text-red-600">6</span> events this week!
           </h1>
         </div>
 
