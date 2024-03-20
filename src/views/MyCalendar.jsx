@@ -1,27 +1,12 @@
 import { React, useState } from "react";
 import Sidebar from "src/components/Sidebar";
 import ArrowIcon from "src/assets/icons/arrow-small-right.svg";
+import CalendarDates from "src/components/CalendarDates";
+import CalendarEvents from "../components/CalendarEvents";
 
 const MyCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const options = { month: "long" };
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const getDayDate = (dayIndex) => {
-    const currentDateCopy = new Date(currentDate);
-    const currentDayOfWeek = currentDateCopy.getDay();
-    const difference = dayIndex - currentDayOfWeek;
-    currentDateCopy.setDate(currentDateCopy.getDate() + difference);
-    return currentDateCopy.getDate();
-  };
 
   const goToPreviousWeek = () => {
     const newDate = new Date(currentDate);
@@ -66,17 +51,8 @@ const MyCalendar = () => {
           </h1>
         </div>
 
-        <div className="mt-7 flex items-center justify-around">
-          {days.map((day, index) => (
-            <div
-              key={index}
-              className="flex h-20 w-[12%] flex-col items-center justify-center rounded-xl bg-[#e5e5e5] font-Inter text-base font-medium"
-            >
-              <p>{day}</p>
-              <h1 className="text-2xl font-bold">{getDayDate(index)}</h1>
-            </div>
-          ))}
-        </div>
+        <CalendarDates currentDate={currentDate} />
+        <CalendarEvents />
       </div>
     </div>
   );
