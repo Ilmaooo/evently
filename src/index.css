@@ -6,3 +6,8 @@
   font-family: "Montserrat";
   src: url("../src/assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
 }
+
+@font-face {
+  font-family: "Inter";
+  src: url("../src/assets/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf");
+}
