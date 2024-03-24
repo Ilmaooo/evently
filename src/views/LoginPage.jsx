@@ -69,6 +69,15 @@ const LoginPage = () => {
                   onChange={handleChange}
                   className="mt-3 w-[431px] max-w-full items-start justify-center self-end whitespace-nowrap rounded-lg bg-neutral-300 bg-opacity-80 py-1 pl-3 pr-16 max-md:pr-5"
                 />
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={() => { window.location.href = `/evently/profile`;}}
+                    className="mt-5 w-[152px] max-w-full rounded-2xl bg-[#B765D3] px-11 py-3 text-center font-bold text-white max-md:px-5"
+                  >
+                    Sign in
+                  </button>
+                </div>
               </div>
               <p className="mt-3 justify-center self-center px-11 text-center font-Montserrat">
                 Don't have an account?{" "}
