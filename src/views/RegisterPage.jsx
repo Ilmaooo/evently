@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import image from "../assets/images/register.png";
+import { useState } from "react";
+
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({

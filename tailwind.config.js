@@ -13,6 +13,16 @@ export default {
         Montserrat: ["Montserrat", "sans-serif"],
         Inter: ["Inter", "sans-serif"],
       },
+      animation: {
+        typewriter: "typewriter 2s steps(93) forwards"
+      },
+      keyframes: {
+        typewriter: {
+          to: {
+            left: "100%"
+          }
+        }
+      }
     },
   },
   plugins: [],
