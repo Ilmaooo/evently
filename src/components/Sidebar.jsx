@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import SidebarLink from "./SidebarLink";
 import HomeIcon from "src/assets/icons/home.svg";
 import ProfileIcon from "src/assets/icons/user.svg";
@@ -6,6 +6,7 @@ import CalendarIcon from "src/assets/icons/calendar-day.svg";
 import ImageIcon from "src/assets/icons/copy-image.svg";
 import HamburgerMenuIcon from "src/assets/icons/menu-burger.svg";
 import StarIcon from "src/assets/icons/star.svg";
+
 
 const Sidebar = ({ currentView }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -60,6 +61,11 @@ const Sidebar = ({ currentView }) => {
             image={ProfileIcon}
             selected={currentView === "Profile"}
           />
+          <SidebarLink
+            name="Add Event"
+            image={ProfileIcon}
+            selected={currentView === "Add Event"}
+          />          
         </ul>
       </div>
     </>
