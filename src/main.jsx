@@ -8,6 +8,7 @@ import UpcomingEvents from "src/views/UpcomingEvents";
 import RegisterPage from "src/views/RegisterPage";
 import LoginPage from "./views/LoginPage";
 import PersonalityPage from "./views/PersonalityPage";
+import AddEvent from "./views/AddEvent";
 import App from "./App";
 import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/evently/upcoming-events",
     element: <UpcomingEvents />,
+  },
+  {
+    path: "/evently/add-event",
+    element: <AddEvent />,
   },
   {
     path: "/evently",
