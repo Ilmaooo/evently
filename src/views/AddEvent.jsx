@@ -38,9 +38,8 @@ const AddEvent = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Sidebar currentView="AddEvent" />
-      <div className="ml-60 p-4">
-        <form id="eventForm" onSubmit={handleSubmit} className='max-w-xl mx-auto px-4'>
-
+      <div className="p-4 w-2/5 mx-auto ">
+        <form id="eventForm" onSubmit={handleSubmit} className=' mx-auto px-4'>
         <div className="mt-10 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
         <div className="sm:col-span-4">
           <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Event Title</label>
