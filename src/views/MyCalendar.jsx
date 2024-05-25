@@ -1,12 +1,31 @@
-import { React, useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from '../context/UserContext';
 import Sidebar from "src/components/Sidebar";
 import ArrowIcon from "src/assets/icons/arrow-small-right.svg";
 import CalendarDates from "src/components/CalendarDates";
 import CalendarEvents from "../components/CalendarEvents";
+import { addedToCalendar } from "../services/ApiService"; // Import your API function
 
 const MyCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [savedEvents, setSavedEvents] = useState([]);
+  const { user } = useContext(UserContext);
   const options = { month: "long" };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (user) {
+        try {
+          const fetchedEvents = await addedToCalendar(user.id);
+          setSavedEvents(fetchedEvents);
+        } catch (error) {
+          console.error("Error fetching user events:", error);
+        } 
+      }
+    };
+    fetchEvents();
+  }, [user, currentDate]);
+
 
   const goToPreviousWeek = () => {
     const newDate = new Date(currentDate);
@@ -47,12 +66,12 @@ const MyCalendar = () => {
             </button>
           </div>
           <h1 className="font-Montserrat text-2xl font-bold">
-            You are going to <span className="text-red-600">6</span> events this week!
+            You are going to <span className="text-red-600">{savedEvents.length}</span> events this week!
           </h1>
         </div>
 
         <CalendarDates currentDate={currentDate} />
-        <CalendarEvents />
+        <CalendarEvents savedEvents={savedEvents} currentDate={currentDate} />
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { loginUser } from "../services/ApiService";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -14,10 +17,19 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const { login } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    try {
+      console.log(formData); 
+      const response = await loginUser(formData);
+      login(response.user); // Store user data in context
+      navigate("/evently/profile");
+    } catch (error) {
+      console.error("Error logging in user:", error);
+    }
   };
 
   return (
@@ -71,7 +83,6 @@ const LoginPage = () => {
                 <div className="flex justify-center">
                   <button
                     type="submit"
-                    onClick={() => { window.location.href = `/evently/profile`;}}
                     className="mt-5 w-[152px] max-w-full rounded-2xl bg-[#B765D3] px-11 py-3 text-center font-bold text-white max-md:px-5"
                   >
                     Sign in

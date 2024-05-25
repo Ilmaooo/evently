@@ -12,6 +12,7 @@ import AddEvent from "./views/AddEvent";
 import App from "./App";
 import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +64,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <UserProvider>
+      <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+  </UserProvider>
 );

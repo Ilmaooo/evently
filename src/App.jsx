@@ -1,7 +1,10 @@
+import { UserProvider } from "./context/UserContext";
 import LandingPage from "./views/LandingPage";
 function App() {
   return (
-    <LandingPage />
+    <UserProvider>
+          <LandingPage />
+    </UserProvider>
   );
 }
 
