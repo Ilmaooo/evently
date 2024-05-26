@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [showLessUpcoming, setShowLessUpcoming] = useState(false);
   const [showLessTrending, setShowLessTrending] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, updateSavedEvents } = useContext(UserContext);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -31,8 +31,9 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
+    if (user.id != undefined) updateSavedEvents(user.id);
     fetchEvents();
-  }, []);
+  }, [user]);
 
   const handleShowMoreUpcoming = () => {
     setVisibleUpcoming((prevVisible) => prevVisible + 4);

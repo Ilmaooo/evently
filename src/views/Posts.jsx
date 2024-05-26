@@ -11,7 +11,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { updateSavedEvents, user } = useContext(UserContext);
-  const postsPerPage = 4;
+  const postsPerPage = 5;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -70,7 +70,7 @@ const Posts = () => {
           Posts from other events!
         </h1>
         <div className="ml-5 relative">
-          <div className="flex flex-wrap gap-7 overflow-hidden">
+          <div className="flex justify-center flex-wrap gap-7 overflow-hidden">
             {posts.slice(currentIndex, currentIndex + postsPerPage).map((post, index) => (
               <PostFromEvent key={index} post={post} />
             ))}
