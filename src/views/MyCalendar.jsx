@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext } from '../context/UserContext';
+import { UserContext } from "../context/UserContext";
 import Sidebar from "src/components/Sidebar";
 import ArrowIcon from "src/assets/icons/arrow-small-right.svg";
 import CalendarDates from "src/components/CalendarDates";
@@ -20,12 +20,12 @@ const MyCalendar = () => {
           setSavedEvents(fetchedEvents);
         } catch (error) {
           console.error("Error fetching user events:", error);
-        } 
+        }
       }
     };
+
     fetchEvents();
   }, [user, currentDate]);
-
 
   const goToPreviousWeek = () => {
     const newDate = new Date(currentDate);
@@ -37,6 +37,19 @@ const MyCalendar = () => {
     const newDate = new Date(currentDate);
     newDate.setDate(newDate.getDate() + 7);
     setCurrentDate(newDate);
+  };
+
+  //function that returns the events that are only in the current week
+  const filterEvents = (events) => {
+    const weekStart = new Date(currentDate);
+    weekStart.setHours(0, 0, 0, 0);
+    const weekEnd = new Date(currentDate);
+    weekEnd.setDate(weekEnd.getDate() + 7);
+    weekEnd.setHours(0, 0, 0, 0);
+    return events.filter((event) => {
+      const eventDate = new Date(event.dateTime);
+      return eventDate >= weekStart && eventDate < weekEnd;
+    });
   };
 
   return (
@@ -66,12 +79,17 @@ const MyCalendar = () => {
             </button>
           </div>
           <h1 className="font-Montserrat text-2xl font-bold">
-            You are going to <span className="text-red-600">{savedEvents.length}</span> events this week!
+            You are going to{" "}
+            <span className="text-red-600">{filterEvents(savedEvents).length}</span>{" "}
+            events this week!
           </h1>
         </div>
 
         <CalendarDates currentDate={currentDate} />
-        <CalendarEvents savedEvents={savedEvents} currentDate={currentDate} />
+        <CalendarEvents
+          savedEvents={filterEvents(savedEvents)}
+          currentDate={currentDate}
+        />
       </div>
     </div>
   );
