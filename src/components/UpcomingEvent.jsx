@@ -29,7 +29,6 @@ const UpcomingEvent = ({event}) => {
 UpcomingEvent.propTypes = {
   event: PropTypes.shape({
     dateTime: PropTypes.string.isRequired,
-    // Add other required properties here
   }),
 };
 

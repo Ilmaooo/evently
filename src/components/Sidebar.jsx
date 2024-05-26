@@ -5,6 +5,7 @@ import ProfileIcon from "src/assets/icons/user.svg";
 import CalendarIcon from "src/assets/icons/calendar-day.svg";
 import ImageIcon from "src/assets/icons/copy-image.svg";
 import HamburgerMenuIcon from "src/assets/icons/menu-burger.svg";
+import AddCalendarIcon from "src/assets/icons/add-calendar.svg";
 import StarIcon from "src/assets/icons/star.svg";
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
@@ -73,7 +74,7 @@ const Sidebar = ({ currentView }) => {
           />
           <SidebarLink
             name="Add Event"
-            image={ProfileIcon}
+            image={AddCalendarIcon}
             selected={currentView === "Add Event"}
           />          
         </ul>

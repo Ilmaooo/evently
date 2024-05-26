@@ -28,6 +28,18 @@ export const createEvent = async (formData) => {
     }
 }
 
+export const getEvent = async (eventId) => {
+    try {
+        const response = await api.get(`/Events/${eventId}`);
+        console.log("Fetched event:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching event:", error);
+        throw error;
+    }
+}
+
+
 //users api
 
 export const registerUser = async (formData) => {
@@ -59,6 +71,17 @@ export const loginUser = async (formData) => {
       throw error;
     }
 };
+
+export const getUser = async (userId) => {
+    try {
+        const response = await api.get(`/Users/${userId}`); 
+        console.log("Fetched user:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        throw error;
+    }
+}
 
 export const getUserEvents = async (userId) => {
     try {
@@ -93,3 +116,27 @@ export const addedToCalendar = async (userId) => {
         throw error;
     }
 }
+
+//posts api
+export const getPosts = async () => {
+    try {
+        const response = await api.get("/Posts");
+        console.log("Fetched posts:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        throw error;
+    }
+}
+
+export const createPost = async (formData) => {
+    try {
+        const response = await api.post("/Posts", formData);
+        console.log("Post created successfully:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating post:", error);
+        throw error;
+    }
+}
+

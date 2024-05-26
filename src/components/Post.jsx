@@ -16,43 +16,46 @@ const Post = ({ event }) => {
     setHovered(false);
   };
 
-    // Function to format the date and time
-    const formatDateTime = (dateTimeString) => {
-      const date = new Date(dateTimeString);
-      return date.toLocaleString("en-US", {
-        weekday: "short",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour24: true,
-      });
-    };
+  // Function to format the date and time
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    return date.toLocaleString("en-US", {
+      weekday: "short",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  };
 
-    const handleAddToCalendar = async (event) => {
-      try {
-        console.log("Adding event to calendar:", event.eventId, user.id)
-        await addToCalendar(user.id, event.eventId); 
-        alert("Event added to calendar successfully!"); 
-      } catch (error) {
-        alert("Error adding event to calendar. Please try again later."); 
-      }
-    };
-    
+  const isEventFinished = new Date(event.dateTime) < new Date();
+
+  const handleAddToCalendar = async () => {
+    try {
+      console.log("Adding event to calendar:", event.eventId, user.id);
+      await addToCalendar(user.id, event.eventId);
+      alert("Event added to calendar successfully!");
+    } catch (error) {
+      alert("Error adding event to calendar. Please try again later.");
+    }
+  };
 
   return (
     <div
       className={`flex aspect-[0.7] max-w-[254px] flex-col items-center relative ${
-        hovered && !event.featured ? "brightness-[0.3]" : ""
+        hovered && !event.featured && !isEventFinished ? "brightness-[0.3]" : ""
       }`}
-      onMouseOver={handleHover}
-      onMouseLeave={handleLeave}
+      onMouseOver={!isEventFinished ? handleHover : null}
+      onMouseLeave={!isEventFinished ? handleLeave : null}
     >
       {/* This section is for darkening the post on hover and applies to upcoming events */}
-      {hovered  && (
+      {!isEventFinished && hovered && (
         <div className="absolute z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
-          <button onClick={() => handleAddToCalendar(event)} className="h-12 w-40 rounded-lg bg-red-600">Add to Calendar</button>
+          <button onClick={handleAddToCalendar} className="h-12 w-40 rounded-lg bg-red-600">
+            Add to Calendar
+          </button>
           <button className="mt-2 h-12 w-40 rounded-lg bg-red-600">Buy Tickets</button>
         </div>
       )}
@@ -60,7 +63,7 @@ const Post = ({ event }) => {
       {/* This section is for the post itself */}
       <div
         className={`relative z-10 flex flex-col overflow-hidden rounded-2xl px-3 pb-2.5 pt-20 text-black ${
-          hovered  ? "brightness-[0.3]" : ""
+          hovered && !isEventFinished ? "brightness-[0.3]" : ""
         }`}
       >
         <img
@@ -73,13 +76,16 @@ const Post = ({ event }) => {
         <div className="relative mt-16 flex flex-col items-center rounded-2xl bg-white pb-2 pl-5 pr-5 pt-5 font-Montserrat">
           <div className="self-stretch whitespace-nowrap text-sm font-bold">{event.name}</div>
           <div className="mt-2.5 self-stretch whitespace-nowrap text-xs">
-            by <span className="font-medium">{event.organizer ? event.organizer : "Unkown"}</span>
+            by <span className="font-medium">{event.organizer ? event.organizer : "Unknown"}</span>
           </div>
           <div className="mt-6 text-center text-xs font-medium">{formatDateTime(event.dateTime)}</div>
 
           {/* If the event has finished prompt the user to post a picture, if not, show the location of the event */}
-          {event.finished ? (
+          {isEventFinished ? (
             <button
+              onClick={() => {
+                window.location.href = `http://localhost:5173/evently/events/${event.eventId}`;
+              }}
               type="button"
               className="mt-3 rounded-xl border-2 border-solid border-black px-6 py-2 text-center text-sm font-bold hover:bg-black hover:text-white"
             >
@@ -106,6 +112,7 @@ const Post = ({ event }) => {
 // Type checking for props
 Post.propTypes = {
   event: PropTypes.shape({
+    eventId: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     author: PropTypes.shape({
       authorName: PropTypes.string.isRequired,

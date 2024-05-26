@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "src/context/UserContext";
 import Sidebar from "src/components/Sidebar";
 import UpcomingEvent from "../components/UpcomingEvent";
 import Post from "../components/Post";
@@ -12,6 +13,7 @@ const Dashboard = () => {
   const [showLessUpcoming, setShowLessUpcoming] = useState(false);
   const [showLessTrending, setShowLessTrending] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -68,7 +70,7 @@ const Dashboard = () => {
       <div className="mt-16 sm:ml-60 sm:mt-0">
         <div className="mt-4 flex w-full justify-between px-5 font-Montserrat font-light">
           <p>Today is: {dateToday()}</p>
-          <p>Enjoy your {dayToday()}</p>
+          <p>Enjoy your {dayToday()}, {user.username}</p>
         </div>
         <h1 className="m-5 flex justify-center font-Montserrat text-2xl font-bold">
           Don't forget about these events happening soon!

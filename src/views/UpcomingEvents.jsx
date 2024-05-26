@@ -17,42 +17,37 @@ const UpcomingEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       const events = await getEvents();
-      setEvents(events);
-      setFilteredEvents(events);
+      const upcomingEvents = filterUpcomingEvents(events);
+      setEvents(upcomingEvents);
+      setFilteredEvents(upcomingEvents);
     };
     fetchEvents();
   }, []);
 
   useEffect(() => {
-    if(currentFilter === "all"){
+    if (currentFilter === "all") {
       setFilteredEvents(events);
     } else {
       setFilteredEvents(events.filter(event => event.type === currentFilter));
     }
   }, [currentFilter, events]);
 
-  const dateToday = () => {
+  const filterUpcomingEvents = (events) => {
     const today = new Date();
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return today.toLocaleDateString(undefined, options);
-  };
-  const dayToday = () => {
-    const today = new Date();
-    const options = { weekday: "long" };
-    return today.toLocaleDateString(undefined, options);
+    return events.filter(event => {
+      const eventDate = new Date(event.dateTime);
+      return eventDate >= today;
+    });
   };
 
   const onFilterSelect = (filter) => {
     setCurrentFilter(filter);
   };
+
   return (
     <div>
       <Sidebar currentView="Upcoming Events" />
       <div className="mt-16 sm:ml-60 sm:mt-0">
-        <div className="mt-4 flex w-full justify-between px-5 font-Montserrat font-light">
-          <p>Today is: {dateToday()}</p>
-          <p>Enjoy your {dayToday()}</p>
-        </div>
         <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
           There are <p className="text-red-600">{filteredEvents.length}</p> events in Sarajevo this week!
         </h1>
