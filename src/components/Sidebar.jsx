@@ -5,11 +5,22 @@ import ProfileIcon from "src/assets/icons/user.svg";
 import CalendarIcon from "src/assets/icons/calendar-day.svg";
 import ImageIcon from "src/assets/icons/copy-image.svg";
 import HamburgerMenuIcon from "src/assets/icons/menu-burger.svg";
+import AddCalendarIcon from "src/assets/icons/add-calendar.svg";
 import StarIcon from "src/assets/icons/star.svg";
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
 
 
 const Sidebar = ({ currentView }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/evently/login");
+  }
   return (
     <>
       {/* Hamburger menu that expands on click */}
@@ -63,10 +74,14 @@ const Sidebar = ({ currentView }) => {
           />
           <SidebarLink
             name="Add Event"
-            image={ProfileIcon}
+            image={AddCalendarIcon}
             selected={currentView === "Add Event"}
           />          
         </ul>
+        <div className="mt-auto mb-4 flex flex-col items-center">
+            <p className="align-bottom text-white">Signed in as <span className="cursor-pointer">{user.username}</span></p>
+            <p className="cursor-pointer text-white underline font-semibold mt-2" onClick={handleLogout}>Log out</p>
+        </div>
       </div>
     </>
   );

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "src/components/Sidebar";
-import UpcomingEvent from "../components/UpcomingEvent";
 import Post from "../components/Post";
 import Filter from "../components/Filter";
 
@@ -8,70 +7,80 @@ import NoteIcon from "src/assets/icons/music-alt.svg";
 import FilmIcon from "src/assets/icons/film.svg";
 import TheatreIcon from "src/assets/icons/theater-masks.svg";
 import BasketballIcon from "src/assets/icons/basketball.svg";
+import { getEvents } from "../services/ApiService";
 
 const UpcomingEvents = () => {
   const [currentFilter, setCurrentFilter] = useState("all");
+  const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
-  const dateToday = () => {
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const events = await getEvents();
+      const upcomingEvents = filterUpcomingEvents(events);
+      setEvents(upcomingEvents);
+      setFilteredEvents(upcomingEvents);
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    if (currentFilter === "all") {
+      setFilteredEvents(events);
+    } else {
+      setFilteredEvents(events.filter(event => event.type === currentFilter));
+    }
+  }, [currentFilter, events]);
+
+  const filterUpcomingEvents = (events) => {
     const today = new Date();
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return today.toLocaleDateString(undefined, options);
-  };
-  const dayToday = () => {
-    const today = new Date();
-    const options = { weekday: "long" };
-    return today.toLocaleDateString(undefined, options);
+    return events.filter(event => {
+      const eventDate = new Date(event.dateTime);
+      return eventDate >= today;
+    });
   };
 
   const onFilterSelect = (filter) => {
     setCurrentFilter(filter);
   };
+
   return (
     <div>
       <Sidebar currentView="Upcoming Events" />
       <div className="mt-16 sm:ml-60 sm:mt-0">
-        <div className="mt-4 flex w-full justify-between px-5 font-Montserrat font-light">
-          <p>Today is: {dateToday()}</p>
-          <p>Enjoy your {dayToday()}</p>
-        </div>
         <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
-          There are <p className="text-red-600">17</p> events in Sarajevo this week!
+          There are <p className="text-red-600">{filteredEvents.length}</p> events in Sarajevo this week!
         </h1>
         <div className="m-5 flex flex-wrap justify-start gap-5">
           <Filter
-            name={"music"}
+            name={"Concert"}
             icon={NoteIcon}
-            isSelected={currentFilter === "music"}
+            isSelected={currentFilter === "Concert"}
             onSelect={onFilterSelect}
           />
           <Filter
-            name={"sports"}
+            name={"Sports"}
             icon={BasketballIcon}
-            isSelected={currentFilter === "sports"}
+            isSelected={currentFilter === "Sports"}
             onSelect={onFilterSelect}
           />
           <Filter
-            name={"film"}
+            name={"Film"}
             icon={FilmIcon}
-            isSelected={currentFilter === "film"}
+            isSelected={currentFilter === "Film"}
             onSelect={onFilterSelect}
           />
           <Filter
-            name={"theatre"}
+            name={"Theatre"}
             icon={TheatreIcon}
-            isSelected={currentFilter === "theatre"}
+            isSelected={currentFilter === "Theatre"}
             onSelect={onFilterSelect}
           />
         </div>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
-          <Post finished={false} />
+          {filteredEvents.map((event, index) => (
+            <Post key={index} event={event} />
+          ))}
         </div>
       </div>
     </div>

@@ -1,39 +1,58 @@
 import { useState } from 'react';
 import Sidebar from 'src/components/Sidebar';
+import { createEvent } from '../services/ApiService';
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    organizer: '',
-    venue: '',
+    Name: '',
+    Organizer: '',
+    Location: '',
     date: '',
     time: '',
-    description: '',
-    image: null,
-    eventId: '',
+    Featured: false,
+    Type: 'Concert',
+    Image: null,
+    EventId: '',
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    const { name, value, type } = e.target;
+
+    // For checkbox (boolean) fields like "Featured"
+    if (type === 'checkbox') {
+      setFormData((prevData) => ({ ...prevData, [name]: e.target.checked }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
   };
 
   const handleImageChange = (e) => {
-    setFormData((prevData) => ({ ...prevData, image: e.target.files[0] }));
+    setFormData((prevData) => ({ ...prevData, Image: e.target.files[0] }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSubmit = new FormData();
-    formDataToSubmit.append('title', formData.title);
-    formDataToSubmit.append('organizer', formData.organizer);
-    formDataToSubmit.append('venue', formData.venue);
-    formDataToSubmit.append('date', formData.date);
-    formDataToSubmit.append('time', formData.time);
-    formDataToSubmit.append('description', formData.description);
-    formDataToSubmit.append('image', formData.image);
-    formDataToSubmit.append('eventId', formData.eventId);
+
+    // Create FormData object
+    const formDataToSend = new FormData();
+    formDataToSend.append('Name', formData.Name);
+    formDataToSend.append('Organizer', formData.Organizer);
+    formDataToSend.append('Location', formData.Location);
+    formDataToSend.append('DateTime', `${formData.date}T${formData.time}:00.000Z`);
+    formDataToSend.append('Type', formData.Type);
+    formDataToSend.append('Featured', formData.Featured);
+    formDataToSend.append('Image', formData.Image);
+    formDataToSend.append('CreatorId', JSON.parse(localStorage.getItem('user')).id);
+
+    try {
+      console.log('Form data:', formDataToSend);
+      const response = await createEvent(formDataToSend);
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
   };
+
+
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -41,16 +60,17 @@ const AddEvent = () => {
       <div className="p-4 w-2/5 mx-auto ">
         <form id="eventForm" onSubmit={handleSubmit} className=' mx-auto px-4'>
         <div className="mt-10 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
+
         <div className="sm:col-span-4">
-          <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">Event Title</label>
+          <label htmlFor="Name" className="block text-sm font-medium leading-6 text-gray-900">Event name</label>
           <div className="mt-2">
             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[#B684DD] sm:max-w-md">
               <input 
               type="text" 
-              name="title" 
-              id="title" 
+              name="Name" 
+              id="Name" 
               className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-              value={formData.title}
+              value={formData.Name}
               onChange={handleChange}
               required
               />
@@ -61,15 +81,15 @@ const AddEvent = () => {
 
         <div className="mt-5 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
         <div className="sm:col-span-4">
-          <label htmlFor="organizer" className="block text-sm font-medium leading-6 text-gray-900">Organizer</label>
+          <label htmlFor="Organizer" className="block text-sm font-medium leading-6 text-gray-900">Organizer</label>
           <div className="mt-2">
             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[#B684DD] sm:max-w-md">
               <input 
               type="text" 
-              name="organizer" 
-              id="organizer" 
+              name="Organizer" 
+              id="Organizer" 
               className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-              value={formData.organizer}
+              value={formData.Organizer}
               onChange={handleChange}
               required
               />
@@ -80,15 +100,15 @@ const AddEvent = () => {
 
         <div className="mt-5 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
         <div className="sm:col-span-4">
-          <label htmlFor="venue" className="block text-sm font-medium leading-6 text-gray-900">Venue</label>
+          <label htmlFor="Location" className="block text-sm font-medium leading-6 text-gray-900">Location</label>
           <div className="mt-2">
             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[#B684DD] sm:max-w-md">
               <input 
               type="text" 
-              name="venue" 
-              id="venue" 
+              name="Location" 
+              id="Location" 
               className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-              value={formData.venue}
+              value={formData.Location}
               onChange={handleChange}
               required
               />
@@ -135,21 +155,47 @@ const AddEvent = () => {
         </div>
         </div>  
 
-        <div className="col-span-full mt-5">
-          <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
-          <div className="mt-2">
-            <textarea 
-            id="description" 
-            name="description" 
-            rows="3" 
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#B684DD] sm:text-sm sm:leading-6"
-            value={formData.description}
-            onChange={handleChange}
-            required></textarea>
+        <div className="mt-5 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-4">
+            <label htmlFor="Featured" className="block text-sm font-medium leading-6 text-gray-900">Featured</label>
+            <div className="mt-2">
+              <select
+                id="Featured"
+                name="Featured" 
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                value={formData.Featured} 
+                onChange={handleChange} 
+              >
+                <option value="true">True</option> 
+                <option value="false">False</option> 
+              </select>
+            </div>
           </div>
         </div>
 
-        <div className="col-span-full">
+
+        <div className="mt-5 col-span-full gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-4">
+            <label htmlFor="Type" className="block text-sm font-medium leading-6 text-gray-900">Type</label>
+            <div className="mt-2">
+              <select
+                id="Type"
+                name="Type" 
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                value={formData.Type} 
+                onChange={handleChange} 
+              >
+                <option value="Concert">Concert</option>
+                <option value="Sports">Sports</option>
+                <option value="Film">Film</option>
+                <option value="Theatre">Theatre</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="col-span-full mt-5">
           <label htmlFor="image" className="block text-sm font-medium leading-6 text-gray-900">Image</label>
           <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div className="text-center">

@@ -1,5 +1,9 @@
-import { useState } from "react";
+// src/components/RegisterPage.jsx
 
+import { useState, useContext } from "react";
+import { registerUser } from "../services/ApiService";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +13,9 @@ const RegisterPage = () => {
     location: "",
   });
 
+  const { login } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -17,10 +24,16 @@ const RegisterPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    try {
+      const response = await registerUser(formData);
+      console.log("User registered successfully:", response);
+      login(response.user); // Store user data in context
+      navigate("/evently/profile");
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
   };
 
   return (
@@ -34,7 +47,6 @@ const RegisterPage = () => {
               className="my-auto aspect-[0.7] w-full self-stretch max-md:mt-8"
             />
           </div>
-
           <div className="ml-5 flex w-3/5 flex-col max-md:ml-0 max-md:w-full">
             <form
               onSubmit={handleSubmit}
@@ -105,15 +117,7 @@ const RegisterPage = () => {
                 />
               </div>
               <div className="mb-4 mt-auto flex justify-center ">
-                <button
-                  type="submit"
-                  onClick={() => {
-                    window.location.href = `/evently/personality`;
-                  }}
-                  className="mt-5 w-[152px] max-w-full justify-center self-center rounded-2xl bg-[#B765D3] px-11 py-3 text-center font-bold text-white max-md:px-5"
-                >
-                  Create account
-                </button>
+                <button type="submit">Create account</button>
               </div>
               <p className="mt-3 justify-center self-center px-11 text-center font-Montserrat">
                 Already have an account?{" "}

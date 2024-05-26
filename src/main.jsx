@@ -12,6 +12,8 @@ import AddEvent from "./views/AddEvent";
 import App from "./App";
 import "src/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
+import SingleEvent from "./views/SingleEvent";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
     element: <AddEvent />,
   },
   {
+    path: "/evently/events/:eventId",
+    element: <SingleEvent />,
+  },
+  {
     path: "/evently",
     element: <App />,
   },
@@ -63,7 +69,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <UserProvider>
+      <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+  </UserProvider>
 );
