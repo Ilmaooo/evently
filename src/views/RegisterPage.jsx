@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import { registerUser } from "../services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { HashLoader } from "react-spinners";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const RegisterPage = () => {
     password: "",
     location: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const { login } = useContext(UserContext);
   const navigate = useNavigate();
@@ -26,13 +29,18 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await registerUser(formData);
       console.log("User registered successfully:", response);
       login(response.user); // Store user data in context
+      setIsLoading(false);
       navigate("/evently/profile");
     } catch (error) {
       console.error("Error registering user:", error);
+      setIsLoading(false);
+      setError("Invalid email or password. Please try again.");
     }
   };
 
@@ -55,6 +63,9 @@ const RegisterPage = () => {
               <h1 className="mb-10 mt-5 self-center text-center font-Montserrat text-2xl font-bold">
                 Create an account
               </h1>
+              {error && (
+                <p className="text-red-500 text-center font-Montserrat">{error}</p>
+              )}
               <div className="mb-1 ">
                 <label
                   htmlFor="username"
@@ -68,7 +79,7 @@ const RegisterPage = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="mt-3 w-[431px] max-w-full items-start justify-center self-end whitespace-nowrap rounded-lg bg-[#D1D1D1] bg-opacity-80 py-1 pl-5 pr-16 text-center max-md:pr-5"
+                  className="mt-3 w-[431px] max-w-full items-start justify-start self-end whitespace-nowrap rounded-lg bg-[#D1D1D1] bg-opacity-80 py-1 pl-5 pr-16 max-md:pr-5"
                 />
               </div>
               <div className="mb-1 ">
@@ -116,9 +127,16 @@ const RegisterPage = () => {
                   className="mt-3 w-[431px] max-w-full items-start justify-center self-end whitespace-nowrap rounded-lg bg-neutral-300 bg-opacity-80 py-1 pl-3 pr-16 max-md:pr-5"
                 />
               </div>
-              <div className="mb-4 mt-auto flex justify-center ">
-                <button type="submit">Create account</button>
-              </div>
+              {isLoading ? (
+                <HashLoader color={"#B765D3"} size={40} className="mt-10" />
+              ) : (
+                <button
+                  type="submit"
+                  className="mt-10 w-[431px] max-w-full items-center justify-center self-center whitespace-nowrap rounded-lg bg-[#B765D3] py-1 text-white font-Montserrat"
+                >
+                  Sign up
+                </button>
+              )}
               <p className="mt-3 justify-center self-center px-11 text-center font-Montserrat">
                 Already have an account?{" "}
                 <span>

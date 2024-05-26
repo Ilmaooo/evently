@@ -21,8 +21,10 @@ const Dashboard = () => {
         setLoading(true);
         const events = await getEvents();
         const currentDate = new Date();
-        setUpcomingEvents(events.filter(event => new Date(event.dateTime) > currentDate));
-        setTrendingEvents(events.filter(event => event.featured));
+        setUpcomingEvents(
+          events.filter((event) => new Date(event.dateTime) > currentDate)
+        );
+        setTrendingEvents(events.filter((event) => event.featured));
         setLoading(false);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -30,26 +32,26 @@ const Dashboard = () => {
       }
     };
     fetchEvents();
-  }, []); 
+  }, []);
 
   const handleShowMoreUpcoming = () => {
-    setVisibleUpcoming(prevVisible => prevVisible + 4); 
-    setShowLessUpcoming(true); 
+    setVisibleUpcoming((prevVisible) => prevVisible + 4);
+    setShowLessUpcoming(true);
   };
 
   const handleShowLessUpcoming = () => {
-    setVisibleUpcoming(4); 
-    setShowLessUpcoming(false); 
+    setVisibleUpcoming(4);
+    setShowLessUpcoming(false);
   };
 
   const handleShowMoreTrending = () => {
-    setVisibleTrending(prevVisible => prevVisible + 4); 
-    setShowLessTrending(true); 
+    setVisibleTrending((prevVisible) => prevVisible + 4);
+    setShowLessTrending(true);
   };
 
   const handleShowLessTrending = () => {
-    setVisibleTrending(4); 
-    setShowLessTrending(false); 
+    setVisibleTrending(4);
+    setShowLessTrending(false);
   };
 
   const dateToday = () => {
@@ -57,7 +59,7 @@ const Dashboard = () => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return today.toLocaleDateString(undefined, options);
   };
-  
+
   const dayToday = () => {
     const today = new Date();
     const options = { weekday: "long" };
@@ -67,12 +69,14 @@ const Dashboard = () => {
   return (
     <div>
       <Sidebar currentView="Dashboard" />
-      <div className="mt-16 sm:ml-60 sm:mt-0">
+      <div className="mt-16 sm:ml-72 sm:mt-0">
         <div className="mt-4 flex w-full justify-between px-5 font-Montserrat font-light">
           <p>Today is: {dateToday()}</p>
-          <p>Enjoy your {dayToday()}, {user.username}</p>
+          <p>
+            Enjoy your {dayToday()}, {user.username}
+          </p>
         </div>
-        <h1 className="m-5 flex justify-center font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 mb-10 flex justify-center font-Montserrat text-2xl font-bold">
           Don't forget about these events happening soon!
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">

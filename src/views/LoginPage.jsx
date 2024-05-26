@@ -2,12 +2,15 @@ import { useState, useContext } from "react";
 import { loginUser } from "../services/ApiService";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { HashLoader } from "react-spinners";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,13 +25,17 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     try {
-      console.log(formData); 
+      console.log(formData);
       const response = await loginUser(formData);
       login(response.user); // Store user data in context
       navigate("/evently/profile");
     } catch (error) {
       console.error("Error logging in user:", error);
+      setIsLoading(false);
+      setError("Invalid email or password. Please try again.");
     }
   };
 
@@ -52,6 +59,9 @@ const LoginPage = () => {
               <h1 className="mb-10 items-center self-center pt-20 text-center font-Montserrat text-2xl font-bold">
                 Sign in to your account
               </h1>
+              {error && (
+                <p className="text-red-500 text-center font-Montserrat">{error}</p>
+              )}
               <div className="mb-1 ">
                 <label htmlFor="email" className=" font-Montserrat max-md:max-w-full">
                   Email
@@ -81,12 +91,16 @@ const LoginPage = () => {
                   className="mt-3 w-[431px] max-w-full items-start justify-center self-end whitespace-nowrap rounded-lg bg-neutral-300 bg-opacity-80 py-1 pl-3 pr-16 max-md:pr-5"
                 />
                 <div className="flex justify-center">
-                  <button
-                    type="submit"
-                    className="mt-5 w-[152px] max-w-full rounded-2xl bg-[#B765D3] px-11 py-3 text-center font-bold text-white max-md:px-5"
-                  >
-                    Sign in
-                  </button>
+                  {isLoading ? (
+                    <HashLoader color={"#B765D3"} size={40} className="mt-10" />
+                  ) : (
+                    <button
+                      type="submit"
+                      className="mt-10 w-[431px] max-w-full items-center justify-center self-center whitespace-nowrap rounded-lg bg-[#B765D3] py-1 text-white font-Montserrat"
+                    >
+                      Sign in
+                    </button>
+                  )}
                 </div>
               </div>
               <p className="mt-3 justify-center self-center px-11 text-center font-Montserrat">

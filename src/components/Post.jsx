@@ -1,12 +1,12 @@
-import { useState, useContext } from "react";
-import { UserContext } from '../context/UserContext';
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
 import PropTypes from "prop-types";
 import mapMarkerIcon from "../assets/icons/marker.svg";
 import { addToCalendar } from "../services/ApiService";
 
 const Post = ({ event }) => {
   const [hovered, setHovered] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, updateSavedEvents, savedEventIds } = useContext(UserContext);
 
   const handleHover = () => {
     setHovered(true);
@@ -15,6 +15,10 @@ const Post = ({ event }) => {
   const handleLeave = () => {
     setHovered(false);
   };
+
+  useEffect(() => {
+    console.log("Saved events:", savedEventIds);
+  }, [savedEventIds]);
 
   // Function to format the date and time
   const formatDateTime = (dateTimeString) => {
@@ -36,7 +40,12 @@ const Post = ({ event }) => {
     try {
       console.log("Adding event to calendar:", event.eventId, user.id);
       await addToCalendar(user.id, event.eventId);
-      alert("Event added to calendar successfully!");
+      await updateSavedEvents(user.id);
+      alert(
+        savedEventIds.includes(event.eventId)
+          ? "Event removed from calendar."
+          : "Event added to calendar."
+      );
     } catch (error) {
       alert("Error adding event to calendar. Please try again later.");
     }
@@ -53,8 +62,13 @@ const Post = ({ event }) => {
       {/* This section is for darkening the post on hover and applies to upcoming events */}
       {!isEventFinished && hovered && (
         <div className="absolute z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
-          <button onClick={handleAddToCalendar} className="h-12 w-40 rounded-lg bg-red-600">
-            Add to Calendar
+          <button
+            onClick={handleAddToCalendar}
+            className="h-12 w-40 rounded-lg bg-red-600"
+          >
+            {savedEventIds.includes(event.eventId)
+              ? "Remove from Calendar"
+              : "Add to Calendar"}
           </button>
           <button className="mt-2 h-12 w-40 rounded-lg bg-red-600">Buy Tickets</button>
         </div>
@@ -74,11 +88,18 @@ const Post = ({ event }) => {
         />
 
         <div className="relative mt-16 flex flex-col items-center rounded-2xl bg-white pb-2 pl-5 pr-5 pt-5 font-Montserrat">
-          <div className="self-stretch whitespace-nowrap text-sm font-bold">{event.name}</div>
-          <div className="mt-2.5 self-stretch whitespace-nowrap text-xs">
-            by <span className="font-medium">{event.organizer ? event.organizer : "Unknown"}</span>
+          <div className="self-stretch whitespace-nowrap text-sm font-bold">
+            {event.name}
           </div>
-          <div className="mt-6 text-center text-xs font-medium">{formatDateTime(event.dateTime)}</div>
+          <div className="mt-2.5 self-stretch whitespace-nowrap text-xs">
+            by{" "}
+            <span className="font-medium">
+              {event.organizer ? event.organizer : "Unknown"}
+            </span>
+          </div>
+          <div className="mt-6 text-center text-xs font-medium">
+            {formatDateTime(event.dateTime)}
+          </div>
 
           {/* If the event has finished prompt the user to post a picture, if not, show the location of the event */}
           {isEventFinished ? (
@@ -96,13 +117,10 @@ const Post = ({ event }) => {
               type="button"
               className="font-regular mt-3 flex items-center gap-1 rounded-xl border-2 border-solid border-black px-4 py-2 text-center text-sm underline"
             >
-              <img src={mapMarkerIcon} className="h-4 w-4" alt="Map Marker"></img>{event.location}
+              <img src={mapMarkerIcon} className="h-4 w-4" alt="Map Marker"></img>
+              {event.location}
             </button>
           )}
-
-          <div className="mt-3 text-center text-xs font-light">
-            {event.attendees} people went!
-          </div>
         </div>
       </div>
     </div>
@@ -120,10 +138,10 @@ Post.propTypes = {
     dateTime: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    attendees: PropTypes.number.isRequired,
-    finished: PropTypes.bool.isRequired,
+    attendees: PropTypes.number,
+    finished: PropTypes.bool,
     featured: PropTypes.bool.isRequired,
-    organizer: PropTypes.string.isRequired,
+    organizer: PropTypes.string,
   }).isRequired,
 };
 
