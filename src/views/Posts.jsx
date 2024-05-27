@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Sidebar from "src/components/Sidebar";
 import Post from "src/components/Post";
 import { getEvents, getPosts } from "../services/ApiService";
 import PostFromEvent from "../components/PostFromEvent";
 import arrowRightIcon from "../assets/icons/arrow-right-circle-svgrepo-com (1).svg";
+import { UserContext } from "../context/UserContext";
 
 const Posts = () => {
   const [events, setEvents] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const postsPerPage = 4; 
+  const { updateSavedEvents, user } = useContext(UserContext);
+  const postsPerPage = 5;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -20,6 +22,7 @@ const Posts = () => {
         console.error("Error fetching posts:", error);
       }
     };
+    updateSavedEvents(user.id);
     fetchPosts();
   }, []);
 
@@ -51,21 +54,23 @@ const Posts = () => {
   return (
     <div>
       <Sidebar currentView="Posts" />
-      <div className="mt-16 sm:ml-60 sm:mt-0">
+      <div className="mt-16 sm:ml-72 sm:mt-0">
         <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
           Post a picture from events you went to!
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
-          {events.filter((event) => isFinished(event.dateTime)).map((event, index) => (
-            <Post key={index} event={event} />
-          ))}
+          {events
+            .filter((event) => isFinished(event.dateTime))
+            .map((event, index) => (
+              <Post key={index} event={event} />
+            ))}
         </div>
 
         <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
           Posts from other events!
         </h1>
         <div className="ml-5 relative">
-          <div className="flex flex-wrap gap-7 overflow-hidden">
+          <div className="flex justify-center flex-wrap gap-7 overflow-hidden">
             {posts.slice(currentIndex, currentIndex + postsPerPage).map((post, index) => (
               <PostFromEvent key={index} post={post} />
             ))}

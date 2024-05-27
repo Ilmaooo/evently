@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Sidebar from "src/components/Sidebar";
 import Post from "../components/Post";
 import Filter from "../components/Filter";
@@ -8,11 +8,13 @@ import FilmIcon from "src/assets/icons/film.svg";
 import TheatreIcon from "src/assets/icons/theater-masks.svg";
 import BasketballIcon from "src/assets/icons/basketball.svg";
 import { getEvents } from "../services/ApiService";
+import { UserContext } from "../context/UserContext";
 
 const UpcomingEvents = () => {
   const [currentFilter, setCurrentFilter] = useState("all");
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const { updateSavedEvents, user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,20 +23,21 @@ const UpcomingEvents = () => {
       setEvents(upcomingEvents);
       setFilteredEvents(upcomingEvents);
     };
+    if (user.id != undefined) updateSavedEvents(user.id);
     fetchEvents();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (currentFilter === "all") {
       setFilteredEvents(events);
     } else {
-      setFilteredEvents(events.filter(event => event.type === currentFilter));
+      setFilteredEvents(events.filter((event) => event.type === currentFilter));
     }
   }, [currentFilter, events]);
 
   const filterUpcomingEvents = (events) => {
     const today = new Date();
-    return events.filter(event => {
+    return events.filter((event) => {
       const eventDate = new Date(event.dateTime);
       return eventDate >= today;
     });
@@ -47,9 +50,10 @@ const UpcomingEvents = () => {
   return (
     <div>
       <Sidebar currentView="Upcoming Events" />
-      <div className="mt-16 sm:ml-60 sm:mt-0">
+      <div className="mt-16 sm:ml-72 sm:mt-0">
         <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
-          There are <p className="text-red-600">{filteredEvents.length}</p> events in Sarajevo this week!
+          There are <p className="text-red-600">{filteredEvents.length}</p> events in
+          Sarajevo this week!
         </h1>
         <div className="m-5 flex flex-wrap justify-start gap-5">
           <Filter
