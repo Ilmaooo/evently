@@ -78,7 +78,7 @@ const MyCalendar = () => {
               <img src={ArrowIcon} className="h-[30px] w-[30px]" alt="Next"></img>
             </button>
           </div>
-          <h1 className="font-Montserrat text-2xl font-bold">
+          <h1 className="font-Montserrat text-2xl font-semibold">
             You are going to{" "}
             <span className="text-red-600">{filterEvents(savedEvents).length}</span>{" "}
             events this week!

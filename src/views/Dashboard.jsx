@@ -77,7 +77,7 @@ const Dashboard = () => {
             Enjoy your {dayToday()}, {user.username}
           </p>
         </div>
-        <h1 className="m-5 mb-10 flex justify-center font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 mb-10 flex justify-center font-Montserrat text-2xl font-semibold">
           Don't forget about these events happening soon!
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
@@ -89,14 +89,14 @@ const Dashboard = () => {
           <div className="flex justify-center mt-5">
             {showLessUpcoming ? (
               <button
-                className="text-[#B765D3] underline py-2 px-4 rounded"
+                className="text-[#B765D3] underline py-2 px-4 rounded font-Montserrat"
                 onClick={handleShowLessUpcoming}
               >
                 Show Less
               </button>
             ) : (
               <button
-                className="text-[#B765D3] underline py-2 px-4 rounded"
+                className="text-[#B765D3] underline py-2 px-4 rounded font-Montserrat"
                 onClick={handleShowMoreUpcoming}
               >
                 Show More
@@ -104,7 +104,7 @@ const Dashboard = () => {
             )}
           </div>
         )}
-        <h1 className="m-5 mt-8 flex justify-center font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 mt-8 flex justify-center font-Montserrat text-2xl font-semibold">
           Trending Events
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
@@ -116,14 +116,14 @@ const Dashboard = () => {
           <div className="flex justify-center mt-5">
             {showLessTrending ? (
               <button
-                className=" text-[#B765D3] underline py-2 px-4 rounded"
+                className=" text-[#B765D3] underline py-2 px-4 rounded font-Montserrat"
                 onClick={handleShowLessTrending}
               >
                 Show Less
               </button>
             ) : (
               <button
-                className=" text-[#B765D3] underline py-2 px-4 rounded"
+                className=" text-[#B765D3] underline py-2 px-4 rounded font-Montserrat"
                 onClick={handleShowMoreTrending}
               >
                 Show More

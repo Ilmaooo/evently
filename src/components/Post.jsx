@@ -33,7 +33,7 @@ const Post = ({ event }) => {
       hour12: true,
     });
   };
-
+  
   const isEventFinished = new Date(event.dateTime) < new Date();
 
   const handleAddToCalendar = async () => {
@@ -70,7 +70,7 @@ const Post = ({ event }) => {
               ? "Remove from Calendar"
               : "Add to Calendar"}
           </button>
-          <button className="mt-2 h-12 w-40 rounded-lg bg-red-600">Buy Tickets</button>
+          
         </div>
       )}
 

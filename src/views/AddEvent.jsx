@@ -70,7 +70,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="Name"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat font-Montserrat leading-6 text-gray-900"
               >
                 Event name
               </label>
@@ -94,7 +94,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="Organizer"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Organizer
               </label>
@@ -118,7 +118,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="Location"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Location
               </label>
@@ -142,7 +142,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="date"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Date
               </label>
@@ -166,7 +166,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="time"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Time
               </label>
@@ -190,7 +190,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="Featured"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Featured
               </label>
@@ -213,7 +213,7 @@ const AddEvent = () => {
             <div className="sm:col-span-4">
               <label
                 htmlFor="Type"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
               >
                 Type
               </label>
@@ -237,7 +237,7 @@ const AddEvent = () => {
           <div className="col-span-full mt-5">
             <label
               htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium font-Montserrat leading-6 text-gray-900"
             >
               Image
             </label>
@@ -285,7 +285,7 @@ const AddEvent = () => {
             ) : (
               <button
                 type="submit"
-                className="mt-4 py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#B684DD] hover:bg-[#B765D3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#B684DD]"
+                className="mt-4 py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium font-Montserrat text-white bg-[#B684DD] hover:bg-[#B765D3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#B684DD]"
               >
                 Submit
               </button>

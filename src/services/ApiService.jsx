@@ -150,3 +150,14 @@ export const createPost = async (formData) => {
     throw error;
   }
 };
+
+export const getUserPosts = async (userId) => {
+  try {
+    const response = await api.get(`/Users/${userId}/Posts`);
+    console.log("Fetched user posts:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+    throw error;
+  }
+}

@@ -51,7 +51,7 @@ const UpcomingEvents = () => {
     <div>
       <Sidebar currentView="Upcoming Events" />
       <div className="mt-16 sm:ml-72 sm:mt-0">
-        <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-bold">
+        <h1 className="m-5 flex justify-start gap-1 font-Montserrat text-2xl font-semibold">
           There are <p className="text-red-600">{filteredEvents.length}</p> events in
           Sarajevo this week!
         </h1>

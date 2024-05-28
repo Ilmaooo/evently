@@ -11,7 +11,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { updateSavedEvents, user } = useContext(UserContext);
-  const postsPerPage = 5;
+  const postsPerPage = 4;
 
   useEffect(() => {
     const fetchPosts = async () => {

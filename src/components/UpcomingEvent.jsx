@@ -16,8 +16,8 @@ const UpcomingEvent = ({event}) => {
   
   return (
     <div>
-      <div className="flex max-w-[255px] gap-1 font-Montserrat text-xl font-bold">
-        <div>
+      <div className="flex max-w-[255px] gap-1 font-Montserrat text-xl font-semibold">
+        <div className="font-Montserrat">
         Only <span className="text-red-600">{daysLeft}</span> {daysLeft === 1 ? "day" : "days"} left until this event!
         </div>
       </div>
