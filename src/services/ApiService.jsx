@@ -39,6 +39,22 @@ export const getEvent = async (eventId) => {
   }
 };
 
+export const deleteEvent = async (eventId, authToken) => {
+  try {
+    const response = await api.delete(`/Events/${eventId}`, {
+      headers: {
+        Authorization: authToken, // Pass token directly as a string
+      },
+    });
+    console.log("user token:", authToken);
+    console.log("Event deleted successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    throw error;
+  }
+};
+
 //users api
 
 export const registerUser = async (formData) => {
@@ -161,3 +177,19 @@ export const getUserPosts = async (userId) => {
     throw error;
   }
 }
+
+export const deletePost = async (postId, authToken) => {
+  try {
+    const response = await api.delete(`/Posts/${postId}`, {
+      headers: {
+        Authorization: authToken, // Pass token directly as a string
+      },
+    });
+    console.log("user token:", authToken);
+    console.log("Post deleted successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    throw error;
+  }
+};

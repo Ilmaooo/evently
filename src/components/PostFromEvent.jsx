@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
 import userIcon from "../assets/icons/user.svg";
-import { getUser, getEvent } from "../services/ApiService";
+import { getUser, getEvent, deletePost } from "../services/ApiService";
+import { UserContext } from "../context/UserContext"; 
 
-const PostFromEvent = ({ post }) => {
+const PostFromEvent = ({ post, onPostDeleted }) => {
+  const { user } = useContext(UserContext);
   const [posterName, setPosterName] = useState("Unknown User");
   const [eventTitle, setEventTitle] = useState("Unknown Event");
+  const [isCurrentUserPost, setIsCurrentUserPost] = useState(false); // State to track if current user owns the post
+
+  const token = localStorage.getItem("token"); 
 
   useEffect(() => {
     const fetchPosterName = async () => {
       try {
         if (post.posterId) {
-          const user = await getUser(post.posterId);
-          setPosterName(user.username);
+          const fetchedUser = await getUser(post.posterId);
+          setPosterName(fetchedUser.username);
+          setIsCurrentUserPost(fetchedUser.id === user.id); // Check if current user is the owner of the post
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -32,7 +38,19 @@ const PostFromEvent = ({ post }) => {
 
     fetchPosterName();
     fetchEventTitle();
-  }, [post.posterId, post.eventId]);
+  }, [post.posterId, post.eventId, user.id]); // Add user.id to dependency array
+
+  const handleDelete = async () => {
+    try {
+      await deletePost(post.postId, token);
+      console.log("Post deleted successfully");
+      if (onPostDeleted) {
+        onPostDeleted(post.postId);
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col px-5 text-sm text-black max-w-[230px]">
@@ -59,17 +77,27 @@ const PostFromEvent = ({ post }) => {
       <div className="mt-3 w-full font-medium text-center">
         {post.description}
       </div>
+      {isCurrentUserPost && ( // Render delete button only if current user owns the post
+        <button 
+          onClick={handleDelete} 
+          className="mt-3 w-full bg-red-500 text-white py-1 rounded"
+        >
+          Delete Post
+        </button>
+      )}
     </div>
   );
 };
 
 PostFromEvent.propTypes = {
   post: PropTypes.shape({
+    postId: PropTypes.number.isRequired,
     imageURL: PropTypes.string.isRequired,
     posterId: PropTypes.number.isRequired,
     eventId: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
+  onPostDeleted: PropTypes.func, 
 };
 
 export default PostFromEvent;

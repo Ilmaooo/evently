@@ -3,10 +3,12 @@ import { UserContext } from "../context/UserContext";
 import PropTypes from "prop-types";
 import mapMarkerIcon from "../assets/icons/marker.svg";
 import { addToCalendar } from "../services/ApiService";
+import { deleteEvent } from "../services/ApiService";
 
 const Post = ({ event }) => {
   const [hovered, setHovered] = useState(false);
   const { user, updateSavedEvents, savedEventIds } = useContext(UserContext);
+  const token = localStorage.getItem("token"); 
 
   const handleHover = () => {
     setHovered(true);
@@ -32,6 +34,16 @@ const Post = ({ event }) => {
       minute: "numeric",
       hour12: true,
     });
+  };
+
+  const handleDeleteEvent = async () => {
+    try {
+      console.log("Deleting event:", event.eventId);
+      await deleteEvent(event.eventId, token);
+      alert("Event deleted successfully.");
+    } catch (error) {
+      alert("Error deleting event. Please try again later.");
+    }
   };
   
   const isEventFinished = new Date(event.dateTime) < new Date();
@@ -64,15 +76,21 @@ const Post = ({ event }) => {
         <div className="absolute z-40 mx-auto mt-3 flex flex-col items-center justify-start font-Montserrat text-sm font-semibold text-white">
           <button
             onClick={handleAddToCalendar}
-            className="h-12 w-40 rounded-lg bg-red-600"
+            className="h-12 w-40 rounded-lg bg-red-600 font-Montserrat"
           >
             {savedEventIds.includes(event.eventId)
               ? "Remove from Calendar"
               : "Add to Calendar"}
           </button>
-          
+          {user.id === event.creatorId && (
+          <button onClick={handleDeleteEvent} className="mt-2 h-12 w-40 rounded-lg bg-red-600 font-Montserrat">
+            Delete Event
+          </button>
+        )}
         </div>
       )}
+
+
 
       {/* This section is for the post itself */}
       <div
@@ -142,6 +160,7 @@ Post.propTypes = {
     finished: PropTypes.bool,
     featured: PropTypes.bool.isRequired,
     organizer: PropTypes.string,
+    creatorId: PropTypes.number.isRequired,
   }).isRequired,
 };
 
