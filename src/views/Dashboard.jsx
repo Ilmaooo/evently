@@ -4,6 +4,7 @@ import Sidebar from "src/components/Sidebar";
 import UpcomingEvent from "../components/UpcomingEvent";
 import Post from "../components/Post";
 import { getEvents } from "../services/ApiService";
+import { HashLoader } from "react-spinners";
 
 const Dashboard = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -81,9 +82,15 @@ const Dashboard = () => {
           Don't forget about these events happening soon!
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
-          {upcomingEvents.slice(0, visibleUpcoming).map((event, index) => (
-            <UpcomingEvent key={index} event={event} />
-          ))}
+          {!loading ? (
+            upcomingEvents
+              .slice(0, visibleUpcoming)
+              .map((event, index) => <UpcomingEvent key={index} event={event} />)
+          ) : (
+            <div className="flex justify-center w-full mt-10">
+              <HashLoader color="#B765D3" size={50} />
+            </div>
+          )}
         </div>
         {upcomingEvents.length > 4 && (
           <div className="flex justify-center mt-5">
@@ -108,9 +115,15 @@ const Dashboard = () => {
           Trending Events
         </h1>
         <div className="ml-5 flex flex-wrap justify-start gap-7">
-          {trendingEvents.slice(0, visibleTrending).map((event, index) => (
-            <Post key={index} event={event} />
-          ))}
+          {!loading ? (
+            trendingEvents
+              .slice(0, visibleTrending)
+              .map((event, index) => <Post key={index} event={event} />)
+          ) : (
+            <div className="flex justify-center w-full mt-10">
+              <HashLoader color="#B765D3" size={50} />
+            </div>
+          )}
         </div>
         {trendingEvents.length > 4 && (
           <div className="flex justify-center mt-5">

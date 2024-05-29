@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:7220/api",
+  baseURL: "https://localhost:32773/api",
 });
 
 //events api
@@ -160,4 +160,4 @@ export const getUserPosts = async (userId) => {
     console.error("Error fetching user posts:", error);
     throw error;
   }
-}
+};
