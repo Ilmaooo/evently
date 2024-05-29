@@ -8,7 +8,6 @@ export const UserProvider = ({ children }) => {
   const [savedEventIds, setSavedEventIds] = useState([]);
 
   useEffect(() => {
-    // Load user data from local storage when the app starts
     const storedUser = localStorage.getItem("user");
     const savedEvents = localStorage.getItem("savedEventIds");
     if (storedUser) {
@@ -22,6 +21,7 @@ export const UserProvider = ({ children }) => {
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", userData.token); // Assuming the token is part of userData
   };
 
   const logout = () => {
@@ -34,10 +34,9 @@ export const UserProvider = ({ children }) => {
   const updateSavedEvents = async (userId) => {
     const savedEvents = await addedToCalendarIds(userId);
     setSavedEventIds(savedEvents);
-    localStorage.setItem("savedEventIds", savedEventIds);
+    localStorage.setItem("savedEventIds", JSON.stringify(savedEvents));
   };
 
-  // Ensure that user is always initialized even if null
   const contextValue = {
     user: user || {},
     login,
